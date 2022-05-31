@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  nestjs:
+    container_name: nestjs_app
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/nestjs
+      NODE_ENV: development
+    command: npm run start:dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/mdsantos/src/app
+
+  postgres:
+    image: postgres
+    container_name: nestjs_db
+    restart: always
+    ports: 
+        - 5432:5432
+    environment:
+      POSTGRES_USER: mdsantos
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: nestjs
+
